@@ -4,7 +4,7 @@ Setup static website on AWS S3 bucket and CloudFront CDN
 
 ## How to use
 
-```
+```tf
 terraform {
   required_version = ">= 1.0.0, < 2.0.0"
 
@@ -57,7 +57,7 @@ data "sops_file" "secrets" {
   source_file = "secrets.enc.json"
 }
 
-module "uploads" {
+module "frontend" {
   source = "github.com/bdeak4/terraform-module-s3-static-website"
 
   bucket_name        = "exampleproject-frontend-production"
