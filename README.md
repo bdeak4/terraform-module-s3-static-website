@@ -26,23 +26,23 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "exampleproject-tfstate"
-    dynamodb_table = "exampleproject-tfstate-lock"
+    bucket         = "project-tfstate"
+    dynamodb_table = "project-tfstate-lock"
     region         = "us-east-1"
-    profile        = "exampleproject"
+    profile        = "project"
     encrypt        = true
   }
 }
 
 provider "aws" {
   region  = "eu-central-1"
-  profile = "exampleproject"
+  profile = "project"
 }
 
 provider "aws" {
   alias   = "us-east-1"
   region  = "us-east-1"
-  profile = "exampleproject"
+  profile = "project"
 }
 
 provider "cloudflare" {
@@ -50,7 +50,7 @@ provider "cloudflare" {
 }
 
 data "cloudflare_zone" "domain" {
-  name = "exampleproject.com"
+  name = "project.com"
 }
 
 data "sops_file" "secrets" {
@@ -60,13 +60,13 @@ data "sops_file" "secrets" {
 module "frontend" {
   source = "github.com/bdeak4/terraform-module-s3-static-website"
 
-  bucket_name        = "exampleproject-frontend-production"
+  bucket_name        = "project-frontend-production"
   bucket_versioning  = true
-  website_domain     = "exampleproject.com"
+  website_domain     = "project.com"
   cloudflare_zone_id = data.cloudflare_zone.domain.id
 
   tags = {
-    Project     = "exampleproject"
+    Project     = "project"
     Role        = "frontend"
     Environment = "production"
   }
